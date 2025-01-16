@@ -1,9 +1,9 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password_hash" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
 
@@ -12,8 +12,8 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "wallets" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "balance" DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
@@ -23,9 +23,9 @@ CREATE TABLE "wallets" (
 
 -- CreateTable
 CREATE TABLE "transactions" (
-    "id" SERIAL NOT NULL,
-    "senderId" INTEGER NOT NULL,
-    "receiverId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "senderId" TEXT NOT NULL,
+    "receiverId" TEXT NOT NULL,
     "amount" DECIMAL(10,2) NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'pending',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -36,8 +36,8 @@ CREATE TABLE "transactions" (
 
 -- CreateTable
 CREATE TABLE "transaction_reversals" (
-    "id" SERIAL NOT NULL,
-    "transactionId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "transactionId" TEXT NOT NULL,
     "reason" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
