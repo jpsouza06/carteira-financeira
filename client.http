@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name": "Fulano",
-  "email": "fulano@email.com",
+  "email": "fulano3@email.com",
   "password": "senhasecreta123"
 }
 
@@ -18,13 +18,18 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "fulano@email.com",
+  "email": "fulano3@email.com",
   "password": "senhasecreta123"
 }
 
 ###
 
-# @name wallet
-POST {{baseUrl}}/wallet
+# @name transaction
+POST {{baseUrl}}/transaction/transfer
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+{
+  "receiverId": "9abc7e33-5956-4980-a4ea-d1f5e6f3db21",
+  "amount": 100.00
+}
