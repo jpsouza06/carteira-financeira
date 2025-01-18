@@ -21,12 +21,12 @@ export class CreateUserUseCase {
     private usersRepository: UserRepository
 	) {}
 	async execute  (
-    {
-  		name,
-    	email,
-    	password
-    }: CreateUserUseCaseRequest
-  ): Promise<CreateUserUseCaseResponse> {
+		{
+			name,
+			email,
+			password
+		}: CreateUserUseCaseRequest
+	): Promise<CreateUserUseCaseResponse> {
 		const hashedPassword = await hash(password, 8)
 		const user = User.create({
 			name,

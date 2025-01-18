@@ -2,11 +2,12 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import Decimal from 'decimal.js'
 
-interface TransactionProps {
+export interface TransactionProps {
   amount: Decimal
   receiverId: UniqueEntityId
   senderId: UniqueEntityId
   status: 'pending' | 'completed' | 'reversed'
+	updatedAt?: Date
 }
 
 export class Transaction extends Entity<TransactionProps> {
@@ -21,6 +22,20 @@ export class Transaction extends Entity<TransactionProps> {
 	get amount() {
 		return this.props.amount
 	}
+
+	get status() {
+		return this.props.status
+	}
+
+	set status(status: 'pending' | 'completed' | 'reversed') {
+		this.props.status = status
+		this.touch()
+	}
+
+	private touch() {
+		this.props.updatedAt = new Date()
+	}
+
 
 	static create(
 		props: TransactionProps, 

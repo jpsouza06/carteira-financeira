@@ -6,7 +6,7 @@ export class InMemoryWalletRepository implements WalletRepository {
 
 	constructor() {}
 	async findByUserId(userId: string) {
-		const wallet = this.items.find(user => user.id.toString() == userId)
+		const wallet = this.items.find(wallet => wallet.userId.toString() === userId)
 		return wallet
 	}
 	async save(wallet: Wallet){
