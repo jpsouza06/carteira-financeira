@@ -6,6 +6,7 @@ import Decimal from 'decimal.js'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { UserRepository } from '../repositories/user-repository'
 import { ResourceAlreadyExists } from '@/core/erros/errors/resource-already-exists'
+import { Injectable } from '@nestjs/common'
 
 interface CreateWalletUseCaseRequest {
   userId: string
@@ -18,6 +19,7 @@ type CreateWalletUseCaseResponse = Either<
    }
 >
 
+@Injectable()
 export class CreateWalletUseCase {
 	constructor(
     private walletsRepository: WalletRepository,

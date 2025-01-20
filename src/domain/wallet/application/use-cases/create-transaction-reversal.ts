@@ -4,6 +4,7 @@ import { WalletRepository } from '../repositories/wallet-repository'
 import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error'
 import { TransactionReversal } from '../../enterprise/entities/transaction-reversal'
 import { TransactionReversalRepository } from '../repositories/transaction-reversal-repository'
+import { Injectable } from '@nestjs/common'
 
 interface CreateTransactionReversalUseCaseRequest {
   transactionId: string
@@ -17,6 +18,7 @@ ResourceNotFoundError | Error,
    }
 >
 
+@Injectable()
 export class CreateTransactionReversalUseCase {
 	constructor(
 		private transactionReversalRepository: TransactionReversalRepository,
@@ -43,11 +45,11 @@ export class CreateTransactionReversalUseCase {
 		const receiverWallet = await this.walletRepository.findByUserId(transaction.receiverId.toString())
 
 		if(!senderWallet) {
-			return left(new ResourceNotFoundError('Sender wallet not found'))
+			return left(new ResourceNotFoundError('Sender wallet'))
 		}
 
 		if(!receiverWallet) {
-			return left(new ResourceNotFoundError('Receiver wallet not found'))
+			return left(new ResourceNotFoundError('Receiver wallet'))
 		}
 
 		senderWallet.balance = senderWallet.balance.add(transaction.amount)

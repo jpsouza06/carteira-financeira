@@ -5,7 +5,8 @@ import { WalletRepository } from '../repositories/wallet-repository'
 import Decimal from 'decimal.js'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error'
-import { NotEnoughBalanceError } from '@/core/erros/errors/not-enough-balance'
+import { NotEnoughBalanceError } from '@/domain/wallet/application/use-cases/errors/not-enough-balance'
+import { Injectable } from '@nestjs/common'
 
 interface CreateTransactionUseCaseRequest {
   amount: string
@@ -21,10 +22,11 @@ type CreateTransactionUseCaseResponse = Either<
    }
 >
 
+@Injectable()
 export class CreateTransactionUseCase {
 	constructor(
     private transactionsRepository: TransactionRepository,
-    private walletRepository: WalletRepository
+		private walletRepository: WalletRepository
 	) {}
 	async execute  (
 		{
@@ -39,7 +41,7 @@ export class CreateTransactionUseCase {
 		const senderWallet = await this.walletRepository.findByUserId(senderId)
 
 		if(!senderWallet) {
-			return left(new ResourceNotFoundError('Sender wallet not found'))
+			return left(new ResourceNotFoundError('Sender wallet'))
 		}
 
 		if(senderWallet.balance < amountDecimal) {
@@ -49,7 +51,7 @@ export class CreateTransactionUseCase {
 		const receiverWallet = await this.walletRepository.findByUserId(receiverId)
 
 		if(!receiverWallet) {
-			return left(new ResourceNotFoundError('Receiver wallet not found'))
+			return left(new ResourceNotFoundError('Receiver wallet'))
 		}
 
 		senderWallet.balance = senderWallet.balance.sub(amountDecimal)

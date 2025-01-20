@@ -1,8 +1,7 @@
 import { Transaction } from '../../enterprise/entities/transaction'
 
-export interface TransactionRepository {
-   findManyByUserId(userId: string): Promise<Transaction[] | null>
-   findById(id: string): Promise<Transaction | undefined>
-   save(transaction: Transaction): Promise<void>
-   create(transaction: Transaction): Promise<void>
+export abstract class TransactionRepository {
+   abstract findById(id: string): Promise<Transaction | null>
+   abstract save(transaction: Transaction): Promise<void>
+   abstract create(transaction: Transaction): Promise<void>
 }

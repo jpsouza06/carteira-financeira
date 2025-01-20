@@ -10,6 +10,10 @@ export class TransactionReversal extends Entity<TransactionReversalProps> {
 	get transactionId() {
 		return this.props.transactionId
 	}
+
+	get reason() {
+		return this.props.reason
+	}
   
 	static create(
 		props: TransactionReversalProps, 

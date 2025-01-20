@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3333
-@authToken = {{authenticate.response.body.acessToken}}
+@authToken = {{authenticate.response.body.accessToken}}
 
 # @name create-account
 POST {{baseUrl}}/account
@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name": "Fulano",
-  "email": "fulano3@email.com",
+  "email": "fulano7@email.com",
   "password": "senhasecreta123"
 }
 
@@ -18,7 +18,7 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "fulano3@email.com",
+  "email": "fulano7@email.com",
   "password": "senhasecreta123"
 }
 
@@ -30,6 +30,18 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "receiverId": "9abc7e33-5956-4980-a4ea-d1f5e6f3db21",
-  "amount": 100.00
+  "receiverId": "0539ddb8-0c04-4004-b739-df090daade23",
+  "amount": "100.00"
+}
+
+###
+
+# @name deposit
+POST {{baseUrl}}/deposit
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "origin": "teste",
+  "amount": "100.00"
 }

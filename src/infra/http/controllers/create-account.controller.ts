@@ -1,8 +1,10 @@
-import { Body, ConflictException, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
-import { hash } from 'bcryptjs'
+import { BadRequestException, Body, ConflictException, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { z } from 'zod'
+import { CreateUserUseCase } from '@/domain/wallet/application/use-cases/create-user'
+import { ResourceAlreadyExists } from '@/core/erros/errors/resource-already-exists'
+import { Public } from '@/infra/auth/public'
+import { AccountPresenter } from '../presenters/account-presenter'
 
 const createAccountBodySchema = z.object({
 	name: z.string(),
@@ -13,42 +15,41 @@ const createAccountBodySchema = z.object({
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
 @Controller('/account')
+@Public()
 export class CreateAccountController {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		private createUser: CreateUserUseCase
+	) {}
 
   @Post()
   @HttpCode(201)
-	@UsePipes(new ZodValidationPipe(createAccountBodySchema))
-	async handle(@Body() body: CreateAccountBodySchema) {
+	@UsePipes(
+		new ZodValidationPipe(createAccountBodySchema)
+	)
+	async handle(
+		@Body() body: CreateAccountBodySchema
+	) {
 		const { name, email, password } = body
 
-		const userWithSameEmail = await this.prisma.user.findUnique({
-			where: {
-				email,
-			}
+		const result = await this.createUser.execute({
+			email,
+			name,
+			password
 		})
 
-		if (userWithSameEmail) {
-			throw new ConflictException(
-				'User with same e-mail addres already exists'
-			)
+		if(result.isLeft()) {
+			const error = result.value
+		
+			switch(error.constructor) {
+			case ResourceAlreadyExists:
+				throw new ConflictException(error.message)
+			default:
+				throw new BadRequestException(error.message)
+			}
 		}
-
-		const hashedPassword = await hash(password, 8)
-
-		const user = await this.prisma.user.create({
-			data:  {
-				email,
-				name,
-				password: hashedPassword
-			}
-		})
-
-		await this.prisma.wallet.create({
-			data: {
-				userId: user.id,
-				balance: 0
-			}
-		})
+		
+		return {
+			user: AccountPresenter.toHttp(result.value.user)
+		}
 	}
 }

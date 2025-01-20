@@ -5,7 +5,7 @@ import Decimal from 'decimal.js'
 export interface WalletProps {
   userId: UniqueEntityId
   balance:  Decimal
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Wallet extends Entity<WalletProps> {

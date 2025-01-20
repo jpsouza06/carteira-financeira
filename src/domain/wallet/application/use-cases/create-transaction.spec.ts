@@ -5,7 +5,7 @@ import { makeWallet } from 'test/factories/make-wallet'
 import Decimal from 'decimal.js'
 import { randomUUID } from 'crypto'
 import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error'
-import { NotEnoughBalanceError } from '@/core/erros/errors/not-enough-balance'
+import { NotEnoughBalanceError } from '@/domain/wallet/application/use-cases/errors/not-enough-balance'
 
 let inMemoryTransactionRepository: InMemoryTransactionRepository
 let inMemoryWalletRepository: InMemoryWalletRepository
