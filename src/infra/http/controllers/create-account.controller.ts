@@ -17,7 +17,7 @@ const createAccountBodySchema = z.object({
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
-@ApiTags('account')
+@ApiTags('Account')
 @Controller('/account')
 @Public()
 export class CreateAccountController {

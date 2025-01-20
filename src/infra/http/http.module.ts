@@ -9,6 +9,8 @@ import { CryptographyModule } from '../cryptography/cryptography.module'
 import { CreateTransactionUseCase } from '@/domain/wallet/application/use-cases/create-transaction'
 import { CreateDepositController } from './controllers/create-deposit.controller'
 import { CreateDepositUseCase } from '@/domain/wallet/application/use-cases/create-deposit'
+import { CreateTransactionReversalController } from './controllers/create-transaction-reversal'
+import { CreateTransactionReversalUseCase } from '@/domain/wallet/application/use-cases/create-transaction-reversal'
 
 @Module({
 	imports: [DatabaseModule, CryptographyModule],
@@ -16,13 +18,15 @@ import { CreateDepositUseCase } from '@/domain/wallet/application/use-cases/crea
 		CreateAccountController, 
 		AuthenticateController, 
 		CreateTransactionController,
-		CreateDepositController
+		CreateDepositController,
+		CreateTransactionReversalController
 	],
 	providers: [
 		CreateUserUseCase, 
 		AuthenticateUserUseCase, 
 		CreateTransactionUseCase,
-		CreateDepositUseCase
+		CreateDepositUseCase,
+		CreateTransactionReversalUseCase
 	]
 })
 

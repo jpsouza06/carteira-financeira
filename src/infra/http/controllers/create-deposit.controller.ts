@@ -16,7 +16,7 @@ const createDepositBodySchema = z.object({
 
 type CreateDepositBodySchema = z.infer<typeof createDepositBodySchema>
 
-@ApiTags('deposit')
+@ApiTags('Deposit')
 @Controller('/deposit')
 export class CreateDepositController {
 	constructor(
@@ -26,7 +26,7 @@ export class CreateDepositController {
   @Post()
   @HttpCode(201)
 	@ApiBearerAuth()
-	@ApiOperation({ summary: 'Create Dedposit' })
+	@ApiOperation({ summary: 'Create Deposit' })
 	@ApiBody({type: Deposit})
 	@ApiCreatedResponse({description: 'Created'})
 	@ApiResponse(schemaCreateResponseNotFound)

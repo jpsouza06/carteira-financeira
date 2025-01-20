@@ -12,7 +12,7 @@ export class PrismaTransactionReversalMapper {
 
 	static toPrisma(transactionReversal: TransactionReversal): Prisma.TransactionReversalUncheckedCreateInput {
 		return {
-			transactionId: transactionReversal.id.toString(),
+			transactionId: transactionReversal.transactionId.toString(),
 			reason: transactionReversal.reason
 		}
 	}

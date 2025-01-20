@@ -11,7 +11,7 @@ import request from 'supertest'
 import { makeUser } from 'test/factories/make-user'
 import { makeWallet } from 'test/factories/make-wallet'
 
-describe('Create transaction (E2E)', () => {
+describe('Create deposit (E2E)', () => {
 	let app: INestApplication
 	let prisma: PrismaService
 	let jwt: JwtService
