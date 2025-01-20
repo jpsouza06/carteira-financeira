@@ -49,6 +49,7 @@ export class CreateDepositUseCase {
 		})
 
 		await this.depositsRepository.create(deposit)
+		await this.walletRepository.save(wallet)
 
 		return right({
 			deposit,

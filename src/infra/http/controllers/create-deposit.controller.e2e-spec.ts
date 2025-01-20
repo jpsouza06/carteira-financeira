@@ -59,12 +59,12 @@ describe('Create transaction (E2E)', () => {
 
 		expect(response.statusCode).toBe(201)
 
-		const transactionOnDatabase = await prisma.deposit.findFirst({
+		const depositOnDatabase = await prisma.deposit.findFirst({
 			where: {
 				walletId: wallet.id.toString()
 			}
 		})
 
-		expect(transactionOnDatabase).toBeTruthy()
+		expect(depositOnDatabase).toBeTruthy()
 	})
 })

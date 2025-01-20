@@ -5,6 +5,9 @@ import { CreateDepositUseCase } from '@/domain/wallet/application/use-cases/crea
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error'
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { Deposit } from '@/domain/wallet/enterprise/entities/deposit'
+import { schemaCreateResponseBadRequest, schemaCreateResponseNotFound } from '../docs/swagger-deposit'
 
 const createDepositBodySchema = z.object({
 	origin: z.string(),
@@ -13,6 +16,7 @@ const createDepositBodySchema = z.object({
 
 type CreateDepositBodySchema = z.infer<typeof createDepositBodySchema>
 
+@ApiTags('deposit')
 @Controller('/deposit')
 export class CreateDepositController {
 	constructor(
@@ -21,6 +25,12 @@ export class CreateDepositController {
 
   @Post()
   @HttpCode(201)
+	@ApiBearerAuth()
+	@ApiOperation({ summary: 'Create Dedposit' })
+	@ApiBody({type: Deposit})
+	@ApiCreatedResponse({description: 'Created'})
+	@ApiResponse(schemaCreateResponseNotFound)
+	@ApiResponse(schemaCreateResponseBadRequest)
 	async handle(
     @Body(new ZodValidationPipe(createDepositBodySchema)) body: CreateDepositBodySchema,
     @CurrentUser() user: UserPayload

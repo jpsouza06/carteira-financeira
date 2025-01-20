@@ -4,6 +4,8 @@ import { z } from 'zod'
 import { AuthenticateUserUseCase } from '@/domain/wallet/application/use-cases/authenticate-user'
 import { WrongCredentials } from '@/domain/wallet/application/use-cases/errors/wrong-credentials'
 import { Public } from '@/infra/auth/public'
+import { ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { schemaCreateResponseBadRequest, schemaCreateResponseUnauthorized } from '../docs/swagger-authenticate'
 
 const authenticateBodySchema = z.object({
 	email: z.string().email(),
@@ -12,6 +14,7 @@ const authenticateBodySchema = z.object({
 
 type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 
+@ApiTags('sessions')
 @Controller('/sessions')
 @Public()
 export class AuthenticateController {
@@ -21,6 +24,11 @@ export class AuthenticateController {
 
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
+	@ApiOperation({ summary: 'Create Authenticate' })
+	@ApiBody({schema: {example: {name: 'teste', email: 'teste@teste.com'}}})
+	@ApiCreatedResponse()
+	@ApiResponse(schemaCreateResponseBadRequest)
+	@ApiResponse(schemaCreateResponseUnauthorized)
 	async handle(@Body() body: AuthenticateBodySchema) {
 		const { email, password } = body
 
